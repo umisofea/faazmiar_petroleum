@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>News Details - Faazmiar Petroleum News</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --blue: #2DABE2;
+      --green: #8DC641;
+      --darkgrey: #1a1d23;
+      --section-bg: #242832;
+      --section-alt-bg: #2a2f3a;
+      --white: #FFFFFF;
+      --light-text: #e8e9ea;
+      --muted-text: #9ca3af;
+      
+      /* Light theme colors */
+      --light-blue: #2CA9E1;
+      --light-green: #8BC541;
+      --light-grey: #707071;
+      --light-bg: #f8f9fa;
+      --light-section-bg: #ffffff;
+      --light-section-alt-bg: #f1f3f5;
+      --dark-text: #212529;
+      --light-muted-text: #6c757d;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--darkgrey) 0%, #1e222a 100%);
+      color: var(--light-text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      padding-top: 70px;
+      transition: all 0.3s ease;
+    }
+    
+    body.light-theme {
+      background: linear-gradient(135deg, var(--light-bg) 0%, #e9ecef 100%);
+      color: var(--dark-text);
+    }
+    
+    .navbar-custom {
+      background: rgba(20, 145, 190, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1030;
+      height: 70px;
+      transition: all 0.3s ease;
+    }
+    
+    .light-theme .navbar-custom {
+      background: rgba(44, 169, 225, 0.95);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-custom .navbar-brand {
+      font-size: 1.5rem;
+    }
+    
+    .navbar-custom .nav-link,
+    .navbar-custom .navbar-brand {
+      color: var(--white);
+      transition: all 0.3s ease;
+      position: relative;
+      text-decoration: none !important;
+    }
+    
+    .light-theme .navbar-custom .nav-link,
+    .light-theme .navbar-custom .navbar-brand {
+      color: var(--white);
+    }
+    
+    .navbar-custom .nav-link:before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(90deg, var(--green), #9fd663);
+      transition: width 0.3s ease;
+    }
+    
+    .light-theme .navbar-custom .nav-link:before {
+      background: linear-gradient(90deg, var(--light-green), #9fd663);
+    }
+    
+    .navbar-custom .nav-link:hover:before {
+      width: 100%;
+    }
+    
+    .btn-portal {
+      border-radius: 25px;
+      padding: 8px 18px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border-width: 2px;
+      margin-left: 10px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--green), #9fd663);
+      border-color: var(--green);
+      color: var(--white);
+      z-index: 1;
+      text-decoration: none !important;
+    }
+    
+    .light-theme .btn-portal {
+      background: linear-gradient(135deg, var(--light-green), #9fd663);
+      border-color: var(--light-green);
+    }
+    
+    .btn-portal:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #9fd663, var(--green), #7da94e, #9fd663);
+      background-size: 400% 400%;
+      z-index: -1;
+      animation: gradientMove 3s ease infinite;
+      border-radius: 25px;
+    }
+    
+    .light-theme .btn-portal:before {
+      background: linear-gradient(135deg, #9fd663, var(--light-green), #7da94e, #9fd663);
+    }
+    
+    .btn-portal:hover {
+      background: linear-gradient(135deg, var(--white), #f0f0f0);
+      color: var(--green);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(123, 165, 78, 0.4);
+      text-decoration: none !important;
+    }
+    
+    .light-theme .btn-portal:hover {
+      color: var(--light-green);
+    }
+    
+    .btn-portal:hover:before {
+      animation: none;
+      opacity: 0;
+    }
+    
+    .theme-toggle {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      margin-left: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .light-theme .theme-toggle {
+      background: rgba(0, 0, 0, 0.1);
+      color: var(--dark-text);
+    }
+    
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(30deg);
+    }
+    
+    .light-theme .theme-toggle:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .news-hero {
+      background: 
+        linear-gradient(135deg, rgba(26, 29, 35, 0.9) 0%, rgba(36, 40, 50, 0.8) 100%), 
+        radial-gradient(circle at 20% 80%, rgba(20, 145, 190, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(123, 165, 78, 0.3) 0%, transparent 50%);
+      background-size: cover, 100% 100%, 100% 100%;
+      color: var(--white);
+      padding: 80px 0 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .light-theme .news-hero {
+      background: 
+        linear-gradient(135deg, rgba(248, 249, 250, 0.9) 0%, rgba(233, 236, 239, 0.8) 100%), 
+        radial-gradient(circle at 20% 80%, rgba(44, 169, 225, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 197, 65, 0.2) 0%, transparent 50%);
+      color: var(--dark-text);
+    }
+    
+    .news-hero:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(20, 145, 190, 0.1), transparent);
+      animation: shimmer 3s linear infinite;
+    }
+    
+    .light-theme .news-hero:before {
+      background: linear-gradient(45deg, transparent, rgba(44, 169, 225, 0.1), transparent);
+    }
+    
+    .news-hero .container {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .breadcrumb {
+      background: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .light-theme .breadcrumb-item + .breadcrumb-item::before {
+      color: rgba(0, 0, 0, 0.6);
+    }
+    
+    .breadcrumb-item a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+    }
+    
+    .light-theme .breadcrumb-item a {
+      color: rgba(0, 0, 0, 0.8);
+    }
+    
+    .breadcrumb-item.active {
+      color: white;
+    }
+    
+    .light-theme .breadcrumb-item.active {
+      color: var(--dark-text);
+    }
+    
+    .news-tag {
+      background: linear-gradient(135deg, var(--blue), #0d7aa7);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      display: inline-block;
+      margin-bottom: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(20, 145, 190, 0.3);
+    }
+    
+    .light-theme .news-tag {
+      background: linear-gradient(135deg, var(--light-blue), #0d7aa7);
+      box-shadow: 0 2px 8px rgba(44, 169, 225, 0.3);
+    }
+    
+    .news-date {
+      color: var(--muted-text);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      display: block;
+      font-weight: 500;
+    }
+    
+    .light-theme .news-date {
+      color: var(--light-muted-text);
+    }
+    
+    .news-content {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(42, 47, 58, 0.8) 100%);
+      border-radius: 20px;
+      padding: 50px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      margin: -40px 0 40px;
+      z-index: 2;
+    }
+    
+    .light-theme .news-content {
+      background: linear-gradient(135deg, var(--light-section-bg) 0%, rgba(241, 243, 245, 0.8) 100%);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .news-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .light-theme .news-image {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .news-body {
+      line-height: 1.8;
+      font-size: 1.1rem;
+      color: var(--light-text);
+    }
+    
+    .light-theme .news-body {
+      color: var(--dark-text);
+    }
+    
+    .news-body p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .news-body h3 {
+      color: var(--white);
+      margin: 2rem 0 1rem;
+      font-weight: 700;
+    }
+    
+    .light-theme .news-body h3 {
+      color: var(--dark-text);
+    }
+    
+    .news-body ul, .news-body ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+    
+    .news-body li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .news-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 40px;
+    }
+    
+    .light-theme .news-meta {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .author-info {
+      display: flex;
+      align-items: center;
+    }
+    
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .light-theme .author-avatar {
+      background: linear-gradient(135deg, var(--light-blue), var(--light-green));
+    }
+    
+    .author-details h5 {
+      margin: 0;
+      color: var(--white);
+    }
+    
+    .light-theme .author-details h5 {
+      color: var(--dark-text);
+    }
+    
+    .author-details p {
+      margin: 0;
+      color: var(--muted-text);
+      font-size: 0.9rem;
+    }
+    
+    .light-theme .author-details p {
+      color: var(--light-muted-text);
+    }
+    
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .share-btn {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .share-btn.facebook {
+      background: #3b5998;
+    }
+    
+    .share-btn.twitter {
+      background: #1da1f2;
+    }
+    
+    .share-btn.linkedin {
+      background: #0077b5;
+    }
+    
+    .share-btn.whatsapp {
+      background: #25d366;
+    }
+    
+    .share-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .related-news {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(42, 47, 58, 0.8) 100%);
+      border-radius: 20px;
+      padding: 50px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      margin-bottom: 40px;
+    }
+    
+    .light-theme .related-news {
+      background: linear-gradient(135deg, var(--light-section-bg) 0%, rgba(241, 243, 245, 0.8) 100%);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .section-title {
+      position: relative;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      font-weight: 800;
+      color: var(--white);
+      font-size: 2rem;
+    }
+    
+    .light-theme .section-title {
+      color: var(--dark-text);
+    }
+    
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      border-radius: 2px;
+    }
+    
+    .light-theme .section-title:after {
+      background: linear-gradient(90deg, var(--light-blue), var(--light-green));
+    }
+    
+    .card {
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      height: 100%;
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .light-theme .card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .light-theme .card:hover {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    
+    .card:hover .card-img-top {
+      transform: scale(1.1);
+    }
+    
+    .card-title {
+      color: var(--white);
+      font-weight: 700;
+      line-height: 1.4;
+      transition: color 0.3s ease;
+      font-size: 1.1rem;
+    }
+    
+    .light-theme .card-title {
+      color: var(--dark-text);
+    }
+    
+    .card:hover .card-title {
+      color: var(--blue);
+    }
+    
+    .light-theme .card:hover .card-title {
+      color: var(--light-blue);
+    }
+    
+    .card-text {
+      color: var(--muted-text);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+    
+    .light-theme .card-text {
+      color: var(--light-muted-text);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), #0d7aa7);
+      border: none;
+      border-radius: 25px;
+      padding: 10px 24px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(20, 145, 190, 0.3);
+      font-size: 0.9rem;
+    }
+    
+    .light-theme .btn-primary {
+      background: linear-gradient(135deg, var(--light-blue), #0d7aa7);
+      box-shadow: 0 4px 15px rgba(44, 169, 225, 0.3);
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--green), #9fd663);
+      transform: translateX(5px);
+      box-shadow: 0 6px 20px rgba(123, 165, 78, 0.4);
+    }
+    
+    .light-theme .btn-primary:hover {
+      background: linear-gradient(135deg, var(--light-green), #9fd663);
+    }
+    
+    .back-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--light-text);
+      border-radius: 25px;
+      padding: 10px 25px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .light-theme .back-btn {
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      color: var(--dark-text);
+    }
+    
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--white);
+      transform: translateX(-5px);
+    }
+    
+    .light-theme .back-btn:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    footer {
+      background: linear-gradient(135deg, var(--darkgrey) 0%, #1e222a 100%);
+      color: var(--light-text);
+      padding: 60px 0 30px;
+      margin-top: 50px;
+    }
+    
+    .light-theme footer {
+      background: linear-gradient(135deg, var(--light-grey) 0%, #5a5a5b 100%);
+      color: var(--white);
+    }
+    
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .social-icons a {
+      color: var(--light-text);
+      font-size: 24px;
+      margin: 0 15px;
+      transition: all 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      text-decoration: none !important;
+    }
+    
+    .light-theme .social-icons a {
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .social-icons a:hover {
+      color: var(--white);
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      transform: translateY(-5px) scale(1.1);
+      text-decoration: none !important;
+    }
+    
+    .light-theme .social-icons a:hover {
+      background: linear-gradient(135deg, var(--light-blue), var(--light-green));
+    }
+    
+    /* Remove underlines from all links */
+    a {
+      text-decoration: none !important;
+    }
+    
+    a:hover {
+      text-decoration: none !important;
+    }
+    
+    .text-decoration-none {
+      text-decoration: none !important;
+    }
+    
+    /* Scroll to top button */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .light-theme .scroll-to-top {
+      background: linear-gradient(135deg, var(--light-blue), var(--light-green));
+    }
+    
+    .scroll-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .scroll-to-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Form controls */
+    .form-control {
+      transition: all 0.3s ease;
+      border-radius: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+    
+    .light-theme .form-control {
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.1);
+      color: var(--dark-text);
+    }
+    
+    .form-control:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 0.25rem rgba(123, 165, 78, 0.25);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .light-theme .form-control:focus {
+      border-color: var(--light-green);
+      box-shadow: 0 0 0 0.25rem rgba(139, 197, 65, 0.25);
+      background: rgba(0, 0, 0, 0.15);
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="home.html">
+        <i class="fas fa-gas-pump me-2"></i>FAAZMIAR PETROLEUM
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              News
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="exploration.html">Exploration</a></li>
+              <li><a class="dropdown-item" href="refining.html">Refining</a></li>
+              <li><a class="dropdown-item" href="market-trends.html">Market Trends</a></li>
+              <li><a class="dropdown-item" href="sustainability.html">Sustainability</a></li>
+              <li><a class="dropdown-item" href="technology.html">Technology</a></li>
+              <li><a class="dropdown-item" href="partnership.html">Partnership</a></li>
+            </ul>
+          </li>
+          
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+          <li class="nav-item ms-2">
+            <a href="https://faazmiar.com" target="_blank" class="btn btn-outline-light btn-portal">
+              <i class="fas fa-external-link-alt me-1"></i> Portal
+            </a>
+          </li>
+          <li class="nav-item ms-2">
+            <button class="btn theme-toggle" id="themeToggle">
+              <i class="fas fa-moon"></i>
+            </button>
+          </li>
+        </ul>
+        <form class="d-flex ms-3">
+          <input class="form-control me-2" type="search" placeholder="Search news..." aria-label="Search" id="searchInput">
+          <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- News Hero Section -->
+  <header class="news-hero">
+    <div class="container">
+      <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left me-2"></i> Back to News
+      </a>
+      
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="index.html">News</a></li>
+          <li class="breadcrumb-item"><a href="#" id="categoryLink">Category</a></li>
+          <li class="breadcrumb-item active" aria-current="page" id="newsTitleBreadcrumb">News Title</li>
+        </ol>
+      </nav>
+      
+      <span class="news-tag" id="newsCategoryTag">Category</span>
+      <span class="news-date" id="newsDate"><i class="far fa-clock me-1"></i> Loading date...</span>
+      
+      <h1 class="display-5 fw-bold mb-4" id="newsTitle">Loading news title...</h1>
+      <p class="lead mb-0" id="newsExcerpt">Loading news excerpt...</p>
+    </div>
+  </header>
+
+  <!-- News Content Section -->
+  <section class="py-4">
+    <div class="container">
+      <div class="news-content">
+        <img src="" id="newsImage" class="news-image" alt="News Image">
+        
+        <div class="news-body" id="newsContent">
+          <!-- News content will be loaded here -->
+          <p>Loading news content...</p>
+        </div>
+        
+        <div class="news-meta">
+          <div class="author-info">
+            <div class="author-avatar">
+              FP
+            </div>
+            <div class="author-details">
+              <h5>Faazmiar Petroleum Editorial Team</h5>
+              <p>Industry Experts & Analysts</p>
+            </div>
+          </div>
+          
+          <div class="share-buttons">
+            <a href="#" class="share-btn facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="share-btn twitter">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="share-btn linkedin">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="share-btn whatsapp">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related News Section -->
+  <section class="py-4">
+    <div class="container">
+      <div class="related-news">
+        <h2 class="section-title">Related News</h2>
+        <div class="row g-4" id="relatedNewsGrid">
+          <!-- Related news will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4 mb-lg-0">
+          <h5 class="mb-4"><i class="fas fa-gas-pump me-2"></i>Faazmiar Petroleum</h5>
+          <p>Providing the latest news and insights from the world of oil and gas exploration, refining, and market trends.</p>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+          <h5 class="mb-4">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="index.html" class="text-decoration-none">Home</a></li>
+            <li class="mb-2"><a href="index.html" class="text-decoration-none">Latest News</a></li>
+            <li class="mb-2"><a href="exploration.html" class="text-decoration-none">Exploration</a></li>
+            <li class="mb-2"><a href="about.html" class="text-decoration-none">About Us</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+          <h5 class="mb-4">Categories</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="exploration.html" class="text-decoration-none">Exploration</a></li>
+            <li class="mb-2"><a href="#" class="text-decoration-none">Refining</a></li>
+            <li class="mb-2"><a href="#" class="text-decoration-none">Market Trends</a></li>
+            <li class="mb-2"><a href="#" class="text-decoration-none">Sustainability</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h5 class="mb-4">Contact Us</h5>
+          <p><i class="fas fa-map-marker-alt me-2"></i> No. 156.0.01, Kompleks Maluri, Jalan Jejaka, 55110 Kuala Lumpur.</p>
+          <p><i class="fas fa-phone me-2"></i> +603 9200 8867</p>
+          <p><i class="fas fa-envelope me-2"></i> contact@faazmiar.com</p>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="text-center">
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="mb-0">© 2025 Faazmiar Petroleum News. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <div class="scroll-to-top" id="scrollToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Get URL parameters
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      const results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Get news data from localStorage
+    function getNewsData() {
+      return JSON.parse(localStorage.getItem('newsData')) || [];
+    }
+
+    // Format date for display
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+
+    // Truncate text
+    function truncateText(text, maxLength) {
+      return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+    }
+
+    // Load news details
+    function loadNewsDetails() {
+      const newsId = getUrlParameter('id');
+      const allNews = getNewsData();
+      const newsItem = allNews.find(item => item.id == newsId);
+      
+      if (!newsItem) {
+        // Redirect to home if news not found
+        window.location.href = 'home.html';
+        return;
+      }
+      
+      // Update page content
+      document.getElementById('newsTitle').textContent = newsItem.title;
+      document.getElementById('newsTitleBreadcrumb').textContent = truncateText(newsItem.title, 30);
+      document.getElementById('newsExcerpt').textContent = truncateText(newsItem.content, 150);
+      document.getElementById('newsCategoryTag').textContent = newsItem.category;
+      document.getElementById('categoryLink').textContent = newsItem.category;
+      document.getElementById('categoryLink').href = `${newsItem.category.toLowerCase().replace(' ', '-')}.html`;
+      document.getElementById('newsDate').innerHTML = `<i class="far fa-clock me-1"></i> ${formatDate(newsItem.date)}`;
+      document.getElementById('newsImage').src = newsItem.imageUrl;
+      document.getElementById('newsImage').alt = newsItem.title;
+      
+      // Format and display news content
+      const contentElement = document.getElementById('newsContent');
+      contentElement.innerHTML = `
+        <p>${newsItem.content}</p>
+        
+        <h3>Key Highlights</h3>
+        <ul>
+          <li>Latest developments in the petroleum industry</li>
+          <li>Impact on global energy markets</li>
+          <li>Future outlook and projections</li>
+          <li>Technological advancements in the sector</li>
+        </ul>
+        
+        <h3>Industry Impact</h3>
+        <p>The recent developments highlighted in this article are expected to have significant implications for the global petroleum industry. Industry experts predict that these changes could reshape market dynamics and influence investment strategies in the coming years.</p>
+        
+        <p>As the world continues to transition towards sustainable energy sources, the petroleum industry faces both challenges and opportunities. Companies that adapt to these changing conditions while maintaining operational excellence are likely to thrive in the evolving energy landscape.</p>
+      `;
+      
+      // Load related news
+      loadRelatedNews(newsItem.category, newsItem.id);
+    }
+
+    // Create related news card
+    function createRelatedNewsCard(news) {
+      return `
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <img src="${news.imageUrl}" class="card-img-top" alt="${news.title}" 
+                 onerror="this.src='https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
+            <div class="card-body d-flex flex-column">
+              <span class="news-tag">${news.category}</span>
+              <span class="news-date">
+                <i class="far fa-clock me-1"></i>${formatDate(news.date)}
+              </span>
+              <h5 class="card-title">${truncateText(news.title, 70)}</h5>
+              <p class="card-text flex-grow-1">
+                ${truncateText(news.content, 100)}
+              </p>
+              <div class="mt-auto">
+                <a href="news-detail.html?id=${news.id}" class="btn btn-primary w-100">
+                  Read More <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Load related news
+    function loadRelatedNews(category, currentNewsId) {
+      const allNews = getNewsData();
+      const relatedNews = allNews
+        .filter(news => news.category === category && news.id != currentNewsId)
+        .slice(0, 3); // Show max 3 related articles
+      
+      const relatedNewsGrid = document.getElementById('relatedNewsGrid');
+      
+      if (relatedNews.length === 0) {
+        relatedNewsGrid.innerHTML = `
+          <div class="col-12 text-center">
+            <p class="text-muted">No related articles found.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      relatedNewsGrid.innerHTML = relatedNews.map(news => createRelatedNewsCard(news)).join('');
+    }
+
+    // Initialize page
+    function initializePage() {
+      loadNewsDetails();
+      
+      // Setup share buttons
+      setupShareButtons();
+      
+      // Initialize theme toggle
+      initThemeToggle();
+      
+      // Initialize scroll to top
+      initScrollToTop();
+    }
+
+    // Setup share buttons
+    function setupShareButtons() {
+      const currentUrl = encodeURIComponent(window.location.href);
+      const title = encodeURIComponent(document.getElementById('newsTitle').textContent);
+      
+      document.querySelector('.share-btn.facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+      document.querySelector('.share-btn.twitter').href = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${title}`;
+      document.querySelector('.share-btn.linkedin').href = `https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`;
+      document.querySelector('.share-btn.whatsapp').href = `https://wa.me/?text=${title}%20${currentUrl}`;
+    }
+
+    // Initialize theme toggle
+    function initThemeToggle() {
+      const themeToggle = document.getElementById('themeToggle');
+      const body = document.body;
+      const icon = themeToggle.querySelector('i');
+      
+      // Check for saved theme preference or default to dark
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      
+      // Apply the saved theme
+      if (currentTheme === 'light') {
+        body.classList.add('light-theme');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+      
+      // Toggle theme on button click
+      themeToggle.addEventListener('click', function() {
+        body.classList.toggle('light-theme');
+        
+        if (body.classList.contains('light-theme')) {
+          localStorage.setItem('theme', 'light');
+          icon.classList.remove('fa-moon');
+          icon.classList.add('fa-sun');
+        } else {
+          localStorage.setItem('theme', 'dark');
+          icon.classList.remove('fa-sun');
+          icon.classList.add('fa-moon');
+        }
+      });
+    }
+
+    // Initialize scroll to top
+    function initScrollToTop() {
+      const scrollToTopBtn = document.getElementById('scrollToTop');
+      
+      // Scroll to top functionality
+      window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+          scrollToTopBtn.classList.add('show');
+        } else {
+          scrollToTopBtn.classList.remove('show');
+        }
+      });
+      
+      scrollToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+
+    // Load page when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      initializePage();
+    });
+  </script>
+</body>
+</html>
