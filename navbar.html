@@ -1,0 +1,56 @@
+<!-- navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-custom navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">
+      <i class="fas fa-gas-pump me-2"></i>FAAZMIAR PETROLEUM
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="faazmiar_news.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">News</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="exploration.html" onclick="filterByCategory('Exploration')">Exploration</a></li>
+            <li><a class="dropdown-item" href="#" onclick="filterByCategory('Refining')">Refining</a></li>
+            <li><a class="dropdown-item" href="#" onclick="filterByCategory('Market Trends')">Market Trends</a></li>
+            <li><a class="dropdown-item" href="#" onclick="filterByCategory('Sustainability')">Sustainability</a></li>
+            <li><a class="dropdown-item" href="#" onclick="filterByCategory('Technology')">Technology</a></li>
+            <li><a class="dropdown-item" href="#" onclick="filterByCategory('Partnership')">Partnership</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+        <li class="nav-item ms-2">
+          <a href="https://faazmiar.com" target="_blank" class="btn btn-outline-light btn-portal">
+            <i class="fas fa-external-link-alt me-1"></i> Portal
+          </a>
+        </li>
+        <!-- Theme Toggle Button -->
+        <li class="nav-item ms-2">
+          <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode">
+            <i class="fas fa-moon" id="themeIcon"></i>
+          </button>
+        </li>
+      </ul>
+      <form class="d-flex ms-3" id="searchForm">
+        <input class="form-control me-2" type="search" placeholder="Search news, partners, feedback..." id="searchInput">
+        <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<!-- BREAKING NEWS - NOW FIXED POSITION -->
+<div class="breaking-news">
+  <div class="container">
+    <div class="ticker-content">
+      <span class="ticker-label">BREAKING</span>
+      <div class="ticker-text" id="breakingNewsText">
+        Stay tuned for the latest updates from Faazmiar Petroleum News...
+      </div>
+    </div>
+  </div>
+</div>

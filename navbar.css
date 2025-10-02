@@ -1,0 +1,253 @@
+/* navbar.css */
+.navbar-custom {
+  background: rgba(20, 145, 190, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.8s ease-out;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+  height: 70px;
+  transition: all 0.5s ease;
+}
+
+[data-theme="light"] .navbar-custom {
+  background: rgba(44, 169, 225, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.navbar-custom .navbar-brand {
+  font-size: 1.5rem;
+}
+
+.navbar-custom .nav-link,
+.navbar-custom .navbar-brand {
+  color: var(--white);
+  transition: all 0.3s ease;
+  position: relative;
+  text-decoration: none !important;
+}
+
+.navbar-custom .nav-link:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, var(--green), #9fd663);
+  transition: width 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover:before {
+  width: 100%;
+}
+
+.btn-portal {
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-width: 2px;
+  margin-left: 10px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--green), #9fd663);
+  border-color: var(--green);
+  color: var(--white);
+  z-index: 1;
+  text-decoration: none !important;
+}
+
+.btn-portal:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #9fd663, var(--green), #7da94e, #9fd663);
+  background-size: 400% 400%;
+  z-index: -1;
+  animation: gradientMove 3s ease infinite;
+  border-radius: 25px;
+}
+
+.btn-portal:hover {
+  background: linear-gradient(135deg, var(--white), #f0f0f0);
+  color: var(--green);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(123, 165, 78, 0.4);
+  text-decoration: none !important;
+}
+
+.btn-portal:hover:before {
+  animation: none;
+  opacity: 0;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 15px;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(30deg);
+}
+
+[data-theme="light"] .theme-toggle {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #333;
+}
+
+[data-theme="light"] .theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Breaking News */
+.breaking-news {
+  background: linear-gradient(135deg, var(--green), #9fd663);
+  color: white;
+  padding: 12px 0;
+  position: fixed;
+  top: 70px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(123, 165, 78, 0.3);
+  z-index: 1029;
+  animation: slideInRight 0.8s ease-out;
+}
+
+.ticker-content {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.ticker-label {
+  background: linear-gradient(135deg, var(--darkgrey), #2a2f3a);
+  padding: 8px 20px;
+  font-weight: bold;
+  margin-right: 25px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+[data-theme="light"] .ticker-label {
+  background: linear-gradient(135deg, var(--light-grey), #8a8a8a);
+}
+
+.ticker-text {
+  white-space: nowrap;
+  animation: ticker 35s linear infinite;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+  background: linear-gradient(135deg, var(--section-bg) 0%, var(--section-alt-bg) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding: 10px 0;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+[data-theme="light"] .dropdown-menu {
+  background: linear-gradient(135deg, var(--section-bg) 0%, var(--section-alt-bg) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  color: var(--light-text);
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+[data-theme="light"] .dropdown-item {
+  color: var(--light-text-color);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  color: white;
+  transform: translateX(5px);
+}
+
+.dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .dropdown-divider {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar dropdown specific */
+.navbar-custom .dropdown-menu {
+  margin-top: 10px;
+  animation: fadeInUp 0.3s ease;
+}
+
+.navbar-custom .dropdown-item {
+  color: var(--light-text);
+}
+
+[data-theme="light"] .navbar-custom .dropdown-item {
+  color: var(--light-text-color);
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ticker {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

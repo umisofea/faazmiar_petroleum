@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exploration News - Faazmiar Petroleum News</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --blue: #2DABE2;
+      --green: #8DC641;
+      --darkgrey: #1a1d23;
+      --section-bg: #242832;
+      --section-alt-bg: #2a2f3a;
+      --white: #FFFFFF;
+      --light-text: #e8e9ea;
+      --muted-text: #9ca3af;
+      
+      /* Light mode variables */
+      --light-blue: #2CA9E1;
+      --light-green: #8BC541;
+      --light-grey: #707071;
+      --light-bg: #f8f9fa;
+      --light-card-bg: #ffffff;
+      --light-text-color: #333333;
+      --light-muted-text: #6c757d;
+      --light-footer-bg: #e9ecef;
+    }
+
+    [data-theme="light"] {
+      --blue: var(--light-blue);
+      --green: var(--light-green);
+      --darkgrey: var(--light-grey);
+      --section-bg: var(--light-card-bg);
+      --section-alt-bg: #f1f3f5;
+      --white: var(--light-card-bg);
+      --light-text: var(--light-text-color);
+      --muted-text: var(--light-muted-text);
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--darkgrey) 0%, #1e222a 100%);
+      color: var(--light-text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      padding-top: 70px;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+    
+    [data-theme="light"] body {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .navbar-custom {
+      background: rgba(20, 145, 190, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1030;
+      height: 70px;
+      transition: all 0.5s ease;
+    }
+    
+    [data-theme="light"] .navbar-custom {
+      background: rgba(44, 169, 225, 0.95);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-custom .navbar-brand {
+      font-size: 1.5rem;
+    }
+    
+    .navbar-custom .nav-link,
+    .navbar-custom .navbar-brand {
+      color: var(--white);
+      transition: all 0.3s ease;
+      position: relative;
+      text-decoration: none !important;
+    }
+    
+    .navbar-custom .nav-link:before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(90deg, var(--green), #9fd663);
+      transition: width 0.3s ease;
+    }
+    
+    .navbar-custom .nav-link:hover:before {
+      width: 100%;
+    }
+    
+    .btn-portal {
+      border-radius: 25px;
+      padding: 8px 18px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border-width: 2px;
+      margin-left: 10px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--green), #9fd663);
+      border-color: var(--green);
+      color: var(--white);
+      z-index: 1;
+      text-decoration: none !important;
+    }
+    
+    .btn-portal:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #9fd663, var(--green), #7da94e, #9fd663);
+      background-size: 400% 400%;
+      z-index: -1;
+      animation: gradientMove 3s ease infinite;
+      border-radius: 25px;
+    }
+    
+    .btn-portal:hover {
+      background: linear-gradient(135deg, var(--white), #f0f0f0);
+      color: var(--green);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(123, 165, 78, 0.4);
+      text-decoration: none !important;
+    }
+    
+    .btn-portal:hover:before {
+      animation: none;
+      opacity: 0;
+    }
+    
+    /* Theme Toggle Button */
+    .theme-toggle {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-left: 15px;
+    }
+    
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(30deg);
+    }
+    
+    [data-theme="light"] .theme-toggle {
+      border-color: rgba(0, 0, 0, 0.2);
+      color: #333;
+    }
+    
+    [data-theme="light"] .theme-toggle:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .category-hero {
+      background: 
+        linear-gradient(135deg, rgba(26, 29, 35, 0.9) 0%, rgba(36, 40, 50, 0.8) 100%), 
+        radial-gradient(circle at 20% 80%, rgba(20, 145, 190, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(123, 165, 78, 0.3) 0%, transparent 50%),
+        url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+      background-size: cover, 100% 100%, 100% 100%, cover;
+      background-position: center;
+      color: var(--white);
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+      margin-top: 0;
+    }
+    
+    [data-theme="light"] .category-hero {
+      background: 
+        linear-gradient(135deg, rgba(248, 249, 250, 0.9) 0%, rgba(233, 236, 239, 0.8) 100%), 
+        radial-gradient(circle at 20% 80%, rgba(44, 169, 225, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 197, 65, 0.2) 0%, transparent 50%),
+        url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+      color: var(--light-text-color);
+    }
+    
+    .category-hero:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(20, 145, 190, 0.1), transparent);
+      animation: shimmer 3s linear infinite;
+    }
+    
+    [data-theme="light"] .category-hero:before {
+      background: linear-gradient(45deg, transparent, rgba(44, 169, 225, 0.1), transparent);
+    }
+    
+    .category-hero .container {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .breadcrumb {
+      background: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    [data-theme="light"] .breadcrumb-item + .breadcrumb-item::before {
+      color: rgba(0, 0, 0, 0.6);
+    }
+    
+    .breadcrumb-item a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+    }
+    
+    [data-theme="light"] .breadcrumb-item a {
+      color: rgba(0, 0, 0, 0.8);
+    }
+    
+    .breadcrumb-item.active {
+      color: white;
+    }
+    
+    [data-theme="light"] .breadcrumb-item.active {
+      color: var(--light-text-color);
+    }
+    
+    .category-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      color: var(--green);
+    }
+    
+    .section-white-bg {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(42, 47, 58, 0.8) 100%);
+      border-radius: 20px;
+      margin: 30px 0;
+      padding: 50px 0;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+    }
+    
+    [data-theme="light"] .section-white-bg {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(241, 243, 245, 0.8) 100%);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .section-title {
+      position: relative;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      font-weight: 800;
+      color: var(--white);
+      animation: fadeInUp 0.8s ease-out;
+      font-size: 2.2rem;
+    }
+    
+    [data-theme="light"] .section-title {
+      color: var(--light-text-color);
+    }
+    
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      border-radius: 2px;
+    }
+    
+    .section-title.center:after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .card {
+      border: none;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      height: 100%;
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-theme="light"] .card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    [data-theme="light"] .card:hover {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-img-top {
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    
+    .card:hover .card-img-top {
+      transform: scale(1.1);
+    }
+    
+    .card-title {
+      color: var(--white);
+      font-weight: 700;
+      line-height: 1.4;
+      transition: color 0.3s ease;
+    }
+    
+    [data-theme="light"] .card-title {
+      color: var(--light-text-color);
+    }
+    
+    .card:hover .card-title {
+      color: var(--blue);
+    }
+    
+    .card-text {
+      color: var(--muted-text);
+      line-height: 1.6;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), #0d7aa7);
+      border: none;
+      border-radius: 25px;
+      padding: 10px 24px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(20, 145, 190, 0.3);
+      font-size: 0.9rem;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--green), #9fd663);
+      transform: translateX(5px);
+      box-shadow: 0 6px 20px rgba(123, 165, 78, 0.4);
+    }
+    
+    .news-tag {
+      background: linear-gradient(135deg, var(--blue), #0d7aa7);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 0.7rem;
+      display: inline-block;
+      margin-bottom: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      max-width: 90px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(20, 145, 190, 0.3);
+    }
+    
+    .card:hover .news-tag {
+      background: linear-gradient(135deg, var(--green), #9fd663);
+      transform: scale(1.05);
+    }
+    
+    .news-date {
+      color: var(--muted-text);
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+      display: block;
+      font-weight: 500;
+    }
+    
+    .filter-section {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(42, 47, 58, 0.8) 100%);
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.5s ease;
+    }
+    
+    [data-theme="light"] .filter-section {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(241, 243, 245, 0.8) 100%);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .sort-dropdown {
+      border-radius: 25px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      backdrop-filter: blur(5px);
+      padding: 10px 15px;
+    }
+    
+    [data-theme="light"] .sort-dropdown {
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      background: rgba(0, 0, 0, 0.05);
+      color: var(--light-text-color);
+    }
+    
+    .sort-dropdown:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 0.25rem rgba(123, 165, 78, 0.25);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    [data-theme="light"] .sort-dropdown:focus {
+      background: rgba(0, 0, 0, 0.08);
+    }
+    
+    .news-count {
+      color: var(--muted-text);
+      font-size: 0.95rem;
+    }
+    
+    .pagination .page-link {
+      color: var(--blue);
+      border-color: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 15px;
+      border-radius: 10px;
+      margin: 0 5px;
+    }
+    
+    [data-theme="light"] .pagination .page-link {
+      border-color: rgba(0, 0, 0, 0.1);
+      background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .pagination .page-link:hover {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      border-color: var(--blue);
+      color: white;
+    }
+    
+    .pagination .page-item.active .page-link {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      border-color: var(--blue);
+    }
+    
+    .no-news {
+      text-align: center;
+      color: var(--muted-text);
+      padding: 60px 20px;
+      font-style: italic;
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(42, 47, 58, 0.8) 100%);
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.5s ease;
+    }
+    
+    [data-theme="light"] .no-news {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(241, 243, 245, 0.8) 100%);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .no-news i {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      color: var(--muted-text);
+    }
+    
+    .exploration-stats {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(42, 47, 58, 0.8) 100%);
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.5s ease;
+    }
+    
+    [data-theme="light"] .exploration-stats {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(241, 243, 245, 0.8) 100%);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--blue);
+    }
+    
+    .stat-label {
+      color: var(--muted-text);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .featured-news {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .featured-news::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transform: translate(30px, -30px);
+    }
+    
+    .featured-news h3 {
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .featured-news p {
+      margin-bottom: 0;
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Modal styles */
+    .modal-content {
+      border-radius: 15px;
+      border: none;
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(42, 47, 58, 0.9) 100%);
+      color: var(--light-text);
+      transition: all 0.5s ease;
+    }
+    
+    [data-theme="light"] .modal-content {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(241, 243, 245, 0.9) 100%);
+      color: var(--light-text-color);
+    }
+    
+    .modal-header {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: white;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .btn-close {
+      filter: invert(1);
+    }
+    
+    [data-theme="light"] .btn-close {
+      filter: none;
+    }
+    
+    .modal-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    footer {
+      background: linear-gradient(135deg, var(--darkgrey) 0%, #1e222a 100%);
+      color: var(--light-text);
+      padding: 60px 0 30px;
+      margin-top: 50px;
+      transition: all 0.5s ease;
+    }
+    
+    [data-theme="light"] footer {
+      background: linear-gradient(135deg, var(--light-footer-bg) 0%, #dee2e6 100%);
+      color: var(--light-text-color);
+    }
+    
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .social-icons a {
+      color: var(--light-text);
+      font-size: 24px;
+      margin: 0 15px;
+      transition: all 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      text-decoration: none !important;
+    }
+    
+    [data-theme="light"] .social-icons a {
+      color: var(--light-text-color);
+      background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .social-icons a:hover {
+      color: var(--white);
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      transform: translateY(-5px) scale(1.1);
+      text-decoration: none !important;
+    }
+    
+    /* Remove underlines from all links */
+    a {
+      text-decoration: none !important;
+    }
+    
+    a:hover {
+      text-decoration: none !important;
+    }
+    
+    .text-decoration-none {
+      text-decoration: none !important;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="home.html">
+        <i class="fas fa-gas-pump me-2"></i>FAAZMIAR PETROLEUM
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="faazmiar_news.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              News
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item active" href="exploration.html">Exploration</a></li>
+              <li><a class="dropdown-item" href="refining.html">Refining</a></li>
+              <li><a class="dropdown-item" href="market-trends.html">Market Trends</a></li>
+              <li><a class="dropdown-item" href="sustainability.html">Sustainability</a></li>
+              <li><a class="dropdown-item" href="technology.html">Technology</a></li>
+              <li><a class="dropdown-item" href="partnership.html">Partnership</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+          <li class="nav-item ms-2">
+            <a href="https://faazmiar.com" target="_blank" class="btn btn-outline-light btn-portal">
+              <i class="fas fa-external-link-alt me-1"></i> Portal
+            </a>
+          </li>
+          <!-- Theme Toggle Button -->
+          <li class="nav-item ms-2">
+            <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode">
+              <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+          </li>
+        </ul>
+        <form class="d-flex ms-3">
+          <input class="form-control me-2" type="search" placeholder="Search exploration news..." aria-label="Search" id="searchInput">
+          <button class="btn btn-outline-light" type="submit" onclick="searchNews(event)"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Category Hero Section -->
+  <header class="category-hero text-center">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-center">
+          <li class="breadcrumb-item"><a href="faazmiar_news.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="home.html#latest">News</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Exploration</li>
+        </ol>
+      </nav>
+      
+      <i class="fas fa-search-location category-icon"></i>
+      <h1 class="display-4 fw-bold mb-4">Exploration News</h1>
+      <p class="lead mb-0">Discover the latest developments in oil and gas exploration activities worldwide</p>
+    </div>
+  </header>
+
+  <!-- Exploration Stats Section -->
+  <section class="py-4">
+    <div class="container">
+      <div class="exploration-stats">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="stat-item">
+              <div class="stat-number" id="totalExplorationNews">0</div>
+              <div class="stat-label">Total Articles</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-item">
+              <div class="stat-number" id="thisMonthNews">0</div>
+              <div class="stat-label">This Month</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-item">
+              <div class="stat-number" id="thisYearNews">0</div>
+              <div class="stat-label">This Year</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-item">
+              <div class="stat-number" id="featuredNews">0</div>
+              <div class="stat-label">Featured</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Exploration News -->
+  <section class="py-4" id="featuredSection" style="display: none;">
+    <div class="container">
+      <div class="featured-news">
+        <h3><i class="fas fa-star me-2"></i>Featured Exploration Story</h3>
+        <div id="featuredStoryContent">
+          <!-- Featured story will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter and Sort Section -->
+  <section class="py-4">
+    <div class="container">
+      <div class="filter-section">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <span class="news-count" id="newsCount">Loading exploration news...</span>
+          </div>
+          <div class="col-md-6">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <label for="sortSelect" class="form-label mb-0 fw-semibold">Sort by:</label>
+              </div>
+              <div class="col">
+                <select class="form-select sort-dropdown" id="sortSelect" onchange="sortNews()">
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="title">Title A-Z</option>
+                  <option value="title-desc">Title Z-A</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Exploration News Grid -->
+  <section class="py-4">
+    <div class="container">
+      <div class="row g-4" id="explorationNewsGrid">
+        <!-- Exploration news will be loaded here -->
+      </div>
+      
+      <!-- No News Message -->
+      <div id="noNewsMessage" class="no-news" style="display: none;">
+        <i class="fas fa-search-minus"></i>
+        <h3>No Exploration News Found</h3>
+        <p>There are currently no exploration news articles available. Check back later for updates!</p>
+        <a href="home.html" class="btn btn-primary mt-3">
+          <i class="fas fa-arrow-left me-2"></i>Back to Home
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pagination -->
+  <section class="py-4" id="paginationSection">
+    <div class="container">
+      <nav aria-label="News pagination">
+        <ul class="pagination justify-content-center" id="paginationContainer">
+          <!-- Pagination will be generated here -->
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <!-- News Detail Modal -->
+  <div class="modal fade" id="newsDetailModal" tabindex="-1" aria-labelledby="newsDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newsDetailModalLabel">News Title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="" id="modalImage" class="modal-image" alt="News Image">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="news-tag" id="modalCategory">Category</span>
+            <span class="news-date" id="modalDate"><i class="far fa-clock me-1"></i> Date</span>
+          </div>
+          <div id="modalContent">
+            <!-- News content will be inserted here -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Share <i class="fas fa-share-alt ms-1"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4 mb-lg-0">
+          <h5 class="mb-4"><i class="fas fa-gas-pump me-2"></i>Faazmiar Petroleum</h5>
+          <p>Providing the latest news and insights from the world of oil and gas exploration, refining, and market trends.</p>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+          <h5 class="mb-4">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="home.html" class="text-decoration-none">Home</a></li>
+            <li class="mb-2"><a href="home.html#latest" class="text-decoration-none">Latest News</a></li>
+            <li class="mb-2"><a href="exploration.html" class="text-decoration-none">Exploration</a></li>
+            
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+          <h5 class="mb-4">Categories</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="exploration.html" class="text-decoration-none">Exploration</a></li>
+            <li class="mb-2"><a href="#" class="text-decoration-none">Refining</a></li>
+            <li class="mb-2"><a href="#" class="text-decoration-none">Market Trends</a></li>
+            <li class="mb-2"><a href="#" class="text-decoration-none">Sustainability</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h5 class="mb-4">Contact Us</h5>
+          <p><i class="fas fa-map-marker-alt me-2"></i> No. 156.0.01, Kompleks Maluri, Jalan Jejaka, 55110 Kuala Lumpur.</p>
+          <p><i class="fas fa-phone me-2"></i> +603 9200 8867</p>
+          <p><i class="fas fa-envelope me-2"></i> contact@faazmiar.com</p>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="text-center">
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="mb-0">© 2025 Faazmiar Petroleum News. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const htmlElement = document.documentElement;
+    
+    // Check for saved theme preference or default to dark
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    htmlElement.setAttribute('data-theme', currentTheme);
+    
+    // Update icon based on current theme
+    updateThemeIcon(currentTheme);
+    
+    // Toggle theme function
+    function toggleTheme() {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      htmlElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    }
+    
+    // Update theme icon
+    function updateThemeIcon(theme) {
+      if (theme === 'dark') {
+        themeIcon.className = 'fas fa-moon';
+        themeToggle.setAttribute('title', 'Switch to light mode');
+      } else {
+        themeIcon.className = 'fas fa-sun';
+        themeToggle.setAttribute('title', 'Switch to dark mode');
+      }
+    }
+    
+    // Add event listener to theme toggle button
+    themeToggle.addEventListener('click', toggleTheme);
+
+    let allExplorationNews = [];
+    let currentPage = 1;
+    const newsPerPage = 6;
+    let currentSort = 'newest';
+    let filteredNews = [];
+
+    // Get news data from localStorage
+    function getNewsData() {
+      return JSON.parse(localStorage.getItem('newsData')) || [];
+    }
+
+    // Filter exploration news
+    function getExplorationNews() {
+      const allNews = getNewsData();
+      return allNews.filter(news => news.category === 'Exploration');
+    }
+
+    // Format date for display
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+
+    // Truncate text
+    function truncateText(text, maxLength) {
+      return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+    }
+
+    // Create news card HTML (Updated to use modal instead of link)
+    function createNewsCard(news) {
+      return `
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100">
+            <img src="${news.imageUrl}" class="card-img-top" alt="${news.title}" 
+                 onerror="this.src='https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'">
+            <div class="card-body d-flex flex-column">
+              <span class="news-tag">Exploration</span>
+              <span class="news-date">
+                <i class="far fa-clock me-1"></i>${formatDate(news.date)}
+              </span>
+              <h5 class="card-title">${news.title}</h5>
+              <p class="card-text flex-grow-1">
+                ${truncateText(news.content, 150)}
+              </p>
+              <div class="mt-auto">
+                <button class="btn btn-primary w-100" onclick="showNewsDetails(${news.id})">
+                  Read More <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Show news details in modal (Same as home page)
+    window.showNewsDetails = function(newsId) {
+      const newsData = getNewsData();
+      const newsItem = newsData.find(item => item.id == newsId);
+      
+      if (newsItem) {
+        // Update modal content
+        document.getElementById('newsDetailModalLabel').textContent = newsItem.title;
+        document.getElementById('modalImage').src = newsItem.imageUrl;
+        document.getElementById('modalCategory').textContent = newsItem.category;
+        document.getElementById('modalDate').innerHTML = `<i class="far fa-clock me-1"></i> ${formatDate(newsItem.date)}`;
+        document.getElementById('modalContent').textContent = newsItem.content;
+        
+        // Show the modal
+        const newsModal = new bootstrap.Modal(document.getElementById('newsDetailModal'));
+        newsModal.show();
+      }
+    };
+
+    // Update statistics
+    function updateStats() {
+      const explorationNews = getExplorationNews();
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth();
+      const currentYear = currentDate.getFullYear();
+      
+      const thisMonthCount = explorationNews.filter(news => {
+        const newsDate = new Date(news.date);
+        return newsDate.getMonth() === currentMonth && newsDate.getFullYear() === currentYear;
+      }).length;
+      
+      const thisYearCount = explorationNews.filter(news => {
+        const newsDate = new Date(news.date);
+        return newsDate.getFullYear() === currentYear;
+      }).length;
+      
+      // Get the most recent news as featured
+      const sortedNews = explorationNews.sort((a, b) => new Date(b.date) - new Date(a.date));
+      const featuredCount = sortedNews.length > 0 ? 1 : 0;
+      
+      document.getElementById('totalExplorationNews').textContent = explorationNews.length;
+      document.getElementById('thisMonthNews').textContent = thisMonthCount;
+      document.getElementById('thisYearNews').textContent = thisYearCount;
+      document.getElementById('featuredNews').textContent = featuredCount;
+    }
+
+    // Display featured story (Updated to use modal)
+    function displayFeaturedStory() {
+      const explorationNews = getExplorationNews();
+      if (explorationNews.length === 0) {
+        document.getElementById('featuredSection').style.display = 'none';
+        return;
+      }
+      
+      // Get most recent news as featured
+      const sortedNews = explorationNews.sort((a, b) => new Date(b.date) - new Date(a.date));
+      const featured = sortedNews[0];
+      
+      document.getElementById('featuredSection').style.display = 'block';
+      document.getElementById('featuredStoryContent').innerHTML = `
+        <h5 class="mb-3">${featured.title}</h5>
+        <p class="mb-3">${truncateText(featured.content, 200)}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <small><i class="far fa-clock me-1"></i>${formatDate(featured.date)}</small>
+          <button class="btn btn-outline-light btn-sm" onclick="showNewsDetails(${featured.id})">
+            Read Full Story <i class="fas fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      `;
+    }
+
+    // Sort news
+    function sortNews() {
+      currentSort = document.getElementById('sortSelect').value;
+      
+      switch(currentSort) {
+        case 'newest':
+          filteredNews.sort((a, b) => new Date(b.date) - new Date(a.date));
+          break;
+        case 'oldest':
+          filteredNews.sort((a, b) => new Date(a.date) - new Date(b.date));
+          break;
+        case 'title':
+          filteredNews.sort((a, b) => a.title.localeCompare(b.title));
+          break;
+        case 'title-desc':
+          filteredNews.sort((a, b) => b.title.localeCompare(a.title));
+          break;
+      }
+      
+      currentPage = 1;
+      displayNews();
+      updatePagination();
+    }
+
+    // Display news with pagination
+    function displayNews() {
+      const newsGrid = document.getElementById('explorationNewsGrid');
+      const noNewsMessage = document.getElementById('noNewsMessage');
+      
+      if (filteredNews.length === 0) {
+        newsGrid.innerHTML = '';
+        noNewsMessage.style.display = 'block';
+        document.getElementById('paginationSection').style.display = 'none';
+        return;
+      }
+      
+      noNewsMessage.style.display = 'none';
+      document.getElementById('paginationSection').style.display = 'block';
+      
+      const startIndex = (currentPage - 1) * newsPerPage;
+      const endIndex = startIndex + newsPerPage;
+      const newsToDisplay = filteredNews.slice(startIndex, endIndex);
+      
+      newsGrid.innerHTML = newsToDisplay.map(news => createNewsCard(news)).join('');
+      
+      // Update news count
+      const totalCount = filteredNews.length;
+      const startItem = startIndex + 1;
+      const endItem = Math.min(endIndex, totalCount);
+      document.getElementById('newsCount').textContent = 
+        `Showing ${startItem}-${endItem} of ${totalCount} exploration articles`;
+    }
+
+    // Update pagination
+    function updatePagination() {
+      const totalPages = Math.ceil(filteredNews.length / newsPerPage);
+      const paginationContainer = document.getElementById('paginationContainer');
+      
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
+        return;
+      }
+      
+      let paginationHTML = '';
+      
+      // Previous button
+      paginationHTML += `
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+          <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+        </li>
+      `;
+      
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+          paginationHTML += `
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+              <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+            </li>
+          `;
+        } else if (i === currentPage - 3 || i === currentPage + 3) {
+          paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+      }
+      
+      // Next button
+      paginationHTML += `
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+          <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
+      `;
+      
+      paginationContainer.innerHTML = paginationHTML;
+    }
+
+    // Change page
+    window.changePage = function(page) {
+      const totalPages = Math.ceil(filteredNews.length / newsPerPage);
+      if (page < 1 || page > totalPages) return;
+      
+      currentPage = page;
+      displayNews();
+      updatePagination();
+      
+      // Scroll to top of news grid
+      document.getElementById('explorationNewsGrid').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    };
+
+    // Search news
+    window.searchNews = function(event) {
+      event.preventDefault();
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+      
+      if (searchTerm === '') {
+        filteredNews = [...allExplorationNews];
+      } else {
+        filteredNews = allExplorationNews.filter(news =>
+          news.title.toLowerCase().includes(searchTerm) ||
+          news.content.toLowerCase().includes(searchTerm)
+        );
+      }
+      
+      currentPage = 1;
+      sortNews();
+    };
+
+    // Initialize page
+    function initializePage() {
+      allExplorationNews = getExplorationNews();
+      filteredNews = [...allExplorationNews];
+      
+      updateStats();
+      displayFeaturedStory();
+      sortNews(); // This will also call displayNews() and updatePagination()
+    }
+
+    // Load page when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      initializePage();
+    });
+
+    // Refresh when returning from other pages
+    window.addEventListener('focus', function() {
+      initializePage();
+    });
+
+    // Handle storage changes
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'newsData') {
+        initializePage();
+      }
+    });
+  </script>
+</body>
+</html>
