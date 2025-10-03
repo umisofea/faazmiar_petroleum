@@ -475,7 +475,185 @@
       left: 50%;
       transform: translateX(-50%);
     }
+
+    /* ========== OIL & GAS LIFECYCLE ANIMATION ========== */
+    .lifecycle-section {
+      background: linear-gradient(135deg, var(--section-bg) 0%, var(--section-alt-bg) 100%);
+      border-radius: 20px;
+      margin: 30px 0;
+      padding: 50px 0;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+    }
     
+    [data-theme="light"] .lifecycle-section {
+      background: linear-gradient(135deg, var(--section-bg) 0%, rgba(241, 243, 245, 0.8) 100%);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .lifecycle-wrap {
+      width: min(1100px, 94vw);
+      margin: 32px auto;
+    }
+    
+    .lifecycle-stage {
+      position: relative;
+      aspect-ratio: 1.85/1;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+    
+    /* -------- RING (SVG) -------- */
+    .lifecycle-svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .lifecycle-ring {
+      fill: none;
+      stroke: url(#grad);
+      stroke-width: 16;
+      filter: drop-shadow(0 10px 30px rgba(255,138,0,.25));
+      stroke-linecap: round;
+    }
+    
+    /* animated dash to give forward motion */
+    .lifecycle-ringFlow {
+      stroke-dasharray: 120 34;
+      animation: dash 2.3s linear infinite;
+    }
+    
+    @keyframes dash {
+      to { stroke-dashoffset: -154; }
+    }
+    
+    /* moving orb along the ring */
+    .lifecycle-orb {
+      filter: drop-shadow(0 0 14px rgba(255,221,85,.9));
+    }
+    
+    .lifecycle-orb circle {
+      fill: url(#orbGrad);
+    }
+    
+    /* path animation to move the orb along the circle */
+    .lifecycle-along path {
+      fill: none;
+      stroke: none;
+    }
+    
+    /* -------- STEPS (cards) -------- */
+    .lifecycle-step {
+      position: absolute;
+      width: min(280px, 42vw);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 20px rgba(0,0,0,.25);
+      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+    }
+    
+    .lifecycle-step:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+    }
+    
+    .lifecycle-step-content {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    
+    .lifecycle-badge {
+      flex: 0 0 32px;
+      height: 32px;
+      width: 32px;
+      display: grid;
+      place-items: center;
+      color: #061024;
+      font-weight: 900;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #fff, #dfe8ff);
+      mix-blend-mode: normal;
+    }
+    
+    .lifecycle-step-title {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--light-text);
+    }
+    
+    .lifecycle-step-desc {
+      margin: .2rem 0 0;
+      font-size: .9rem;
+      color: var(--muted-text);
+      line-height: 1.25;
+    }
+    
+    /* colored side accent + pulsing highlight */
+    .lifecycle-step::after {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: 14px;
+      padding: 1px;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      opacity: .65;
+    }
+    
+    .lifecycle-step[data-highlight] {
+      animation: glow 3.2s ease-in-out infinite;
+    }
+    
+    @keyframes glow {
+      0%, 72% { box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+      80% { box-shadow: 0 0 0 0 rgba(255,255,255,.0), 0 0 24px 8px rgba(255,221,85,.25); }
+      100% { box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+    }
+    
+    /* positions around the ring (responsive, via percentages) */
+    .lifecycle-step-1 { top: 7%; left: 50%; transform: translate(-50%,0); }
+    .lifecycle-step-2 { top: 34%; right: 1%; }
+    .lifecycle-step-3 { bottom: 5%; right: 14%; }
+    .lifecycle-step-4 { bottom: 6%; left: 14%; }
+    .lifecycle-step-5 { top: 34%; left: 1%; }
+    
+    /* Individual color pairs */
+    .lifecycle-step-1 { --c1: var(--blue); --c2: #66f; }
+    .lifecycle-step-2 { --c1: #ff8a00; --c2: #ffd166; }
+    .lifecycle-step-3 { --c1: #ff4d6d; --c2: #ff9aa2; }
+    .lifecycle-step-4 { --c1: var(--green); --c2: #6bf3c6; }
+    .lifecycle-step-5 { --c1: #ffce56; --c2: #ffa600; }
+    
+    /* sequential highlight timing */
+    .lifecycle-step-1[data-highlight] { animation-delay: 0s; }
+    .lifecycle-step-2[data-highlight] { animation-delay: .6s; }
+    .lifecycle-step-3[data-highlight] { animation-delay: 1.2s; }
+    .lifecycle-step-4[data-highlight] { animation-delay: 1.8s; }
+    .lifecycle-step-5[data-highlight] { animation-delay: 2.4s; }
+    
+    /* Accessibility: respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .lifecycle-ringFlow { animation: none; }
+      .lifecycle-step[data-highlight] { animation: none; }
+      .lifecycle-orbAnim { display: none; }
+    }
+    
+    /* Small screens */
+    @media (max-width: 680px) {
+      .lifecycle-step { width: 46vw; }
+      .lifecycle-step-2, .lifecycle-step-5 { top: auto; bottom: 52%; }
+    }
+
     .card {
       border: none;
       border-radius: 20px;
@@ -1375,7 +1553,8 @@
       .section-white-bg, 
       .section-grey-bg,
       .partnership-section,
-      .feedback-section {
+      .feedback-section,
+      .lifecycle-section {
         padding: 30px 0;
       }
       
@@ -1558,7 +1737,7 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">Product</a></li>
+          <li class="nav-item"><a class="nav-link" href="#productEcosystem">Product</a></li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">News</a>
             <ul class="dropdown-menu">
@@ -1618,7 +1797,7 @@
       <h1 class="fw-bold mb-4">FAAZMIAR PETROLEUM</h1>
       <p class="lead mb-5">Stay updated with the latest news and industry insights from the world of oil and gas</p>
       <a href="#latest" class="btn btn-lg">Read News</a>
-      <a href="#latest" class="btn btn-lg">Our Product</a>
+      <a href="#lifecycle" class="btn btn-lg">Our Process</a>
     </div>
   </header>
 
@@ -1660,6 +1839,110 @@
         <button class="scroll-btn scroll-btn-right" onclick="scrollCards('featuredNews', 1)">
           <i class="fas fa-chevron-right"></i>
         </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- OIL & GAS LIFECYCLE ANIMATION SECTION -->
+  <section class="py-5 lifecycle-section animated-bg-section" id="lifecycle">
+    <div class="container">
+      <h2 class="section-title center">Oil & Gas Field Lifecycle</h2>
+      <p class="text-center mb-5">Animated circular flow with staged highlights. Hover any card for a lift.</p>
+      
+      <div class="lifecycle-wrap">
+        <div class="lifecycle-stage" aria-label="Lifecycle diagram">
+
+          <!-- The animated ring -->
+          <svg class="lifecycle-svg" viewBox="0 0 1200 650" aria-hidden="true">
+            <!-- gradient for the ring -->
+            <defs>
+              <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%"  stop-color="var(--blue)" />
+                <stop offset="100%" stop-color="var(--green)" />
+              </linearGradient>
+              <radialGradient id="orbGrad">
+                <stop offset="0%" stop-color="#fff9c4"/>
+                <stop offset="60%" stop-color="#ffd166"/>
+                <stop offset="100%" stop-color="#ff8a00"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Big curved arrow ring -->
+            <path class="lifecycle-ring lifecycle-ringFlow"
+              d="M 200 500
+                 A 380 330 0 1 1 1000 320
+                 M 995 320 l -48 -18
+                 m 48 18 l -22 45"
+              />
+
+            <!-- Invisible guide circle for the orb motion -->
+            <g class="lifecycle-along">
+              <path id="guide"
+                d="M 210 500 A 380 330 0 1 1 990 320 A 380 330 0 0 1 210 500" />
+            </g>
+
+            <!-- Moving orb following the guide -->
+            <g class="lifecycle-orb lifecycle-orbAnim">
+              <circle r="11">
+                <animateMotion dur="7.2s" repeatCount="indefinite" rotate="auto">
+                  <mpath xlink:href="#guide"/>
+                </animateMotion>
+              </circle>
+            </g>
+          </svg>
+
+          <!-- Steps -->
+          <section class="lifecycle-step lifecycle-step-1" data-highlight>
+            <div class="lifecycle-step-content">
+              <div class="lifecycle-badge">1</div>
+              <div>
+                <h3 class="lifecycle-step-title">Exploration</h3>
+                <p class="lifecycle-step-desc">Searching for oil &amp; gas deposits using seismic surveys, geology and prospecting.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="lifecycle-step lifecycle-step-2" data-highlight>
+            <div class="lifecycle-step-content">
+              <div class="lifecycle-badge">2</div>
+              <div>
+                <h3 class="lifecycle-step-title">Appraisal</h3>
+                <p class="lifecycle-step-desc">Investigate volume, pressure, and reservoir parameters to assess commerciality.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="lifecycle-step lifecycle-step-3" data-highlight>
+            <div class="lifecycle-step-content">
+              <div class="lifecycle-badge">3</div>
+              <div>
+                <h3 class="lifecycle-step-title">Development</h3>
+                <p class="lifecycle-step-desc">Design facilities, install rigs &amp; infrastructure, and drill development wells.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="lifecycle-step lifecycle-step-4" data-highlight>
+            <div class="lifecycle-step-content">
+              <div class="lifecycle-badge">4</div>
+              <div>
+                <h3 class="lifecycle-step-title">Production</h3>
+                <p class="lifecycle-step-desc">Extract hydrocarbons; operate, monitor, and optimize flow over field life.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="lifecycle-step lifecycle-step-5" data-highlight>
+            <div class="lifecycle-step-content">
+              <div class="lifecycle-badge">5</div>
+              <div>
+                <h3 class="lifecycle-step-title">Abandonment</h3>
+                <p class="lifecycle-step-desc">Plug &amp; abandon wells, remove surface facilities, and restore the site.</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
       </div>
     </div>
   </section>
@@ -1828,6 +2111,12 @@
         
         container.appendChild(droplet);
       }
+    }
+
+    // Initialize product ecosystem animations
+    function initializeProductEcosystem() {
+      // Animation will be handled by CSS and animate-on-scroll class
+      console.log('Product ecosystem initialized');
     }
 
     // Load news from API
@@ -2470,6 +2759,7 @@
       updateBreakingNews();
       initializePartnerships();
       initializeFeedback();
+      initializeProductEcosystem();
       
       // Search form submission
       const searchForm = document.getElementById('searchForm');
