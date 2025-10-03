@@ -1154,11 +1154,27 @@
     }
     
     .partners-track {
-      display: flex;
-      animation: scrollPartners 30s linear infinite;
-      width: max-content;
-    }
-    
+  display: flex;
+  animation: scrollPartnersOnce 30s linear forwards;
+  width: max-content;
+}
+
+@keyframes scrollPartnersOnce {
+  0% {
+    transform: translateX(0);
+  }
+  90% {
+    transform: translateX(-50%); /* Scroll to end */
+  }
+  100% {
+    transform: translateX(-50%); /* Stay at end position */
+  }
+}
+
+/* Remove the hover effect since it's not looping */
+.partners-track:hover {
+  animation-play-state: inherit;
+}
     .partners-track:hover {
       animation-play-state: paused;
     }
@@ -1704,14 +1720,6 @@
       }
     }
     
-    @keyframes scrollPartners {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
-    }
   </style>
 </head>
 <body>
